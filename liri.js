@@ -58,22 +58,28 @@ if (command === "concert-this") {
 }
 
 if (command === "movie-this") {
+    if (userInput ==  "") {
+        userInput = "Mr. Nobody";
+    }
+    console.log(userInput);
     var queryURL = "http://www.omdbapi.com/?t=" + 
                     userInput + "&y=&plot=short&apikey=trilogy";
     axios.get(queryURL)
         .then(function(response) {
-            console.log(response.data.Title);
-            console.log(response.data.Released);
-
+            console.log("Movie title: " + response.data.Title  + "\n");
+            console.log("Release date: " + response.data.Released  + "\n");
+            console.log("Plot of the movie: " + response.data.Plot  + "\n");
+            console.log("Actors in the movie: " + response.data.Actors  + "\n");
+            console.log("Country produced in: " + response.data.Country  + "\n");
+            console.log("Language of the movie: " + response.data.Language  + "\n");
+            console.log("IMDb rating: " + response.data.imdbRating  + "\n");
+            console.log("Rotten Tomatoes rating: " + response.data.Ratings[1].Value + "\n==============");
         })
 }
 
 // * `movie-this`
     // 3. `node liri.js movie-this '<movie name here>'`
     // * This will output the following information to your terminal/bash window:
-    //     ```
-    //     * Title of the movie.
-    //     * Year the movie came out.
     //     * IMDB Rating of the movie.
     //     * Rotten Tomatoes Rating of the movie.
     //     * Country where the movie was produced.
