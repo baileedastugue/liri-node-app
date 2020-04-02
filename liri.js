@@ -1,3 +1,4 @@
+// access npm 
 require("dotenv").config();
 var axios = require("axios");
 var keys = require("./keys.js");
@@ -6,9 +7,14 @@ var Spotify = require('node-spotify-api');
 var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
 
+// stores the user-input command aka what type of thing to search for
 var command = process.argv[2];
+
+// stores the user-input search term
 var userInput = "";
 var inputArray = []; 
+// function that captures and stores all user input after index 2 
+    // (all indeces 3+)
 function getInput() {
     for (var i = 3; i < process.argv.length; i++) {
         inputArray.push(process.argv[i]);
@@ -17,6 +23,8 @@ function getInput() {
 }
 var searchNumber =0;
 var output = "";
+
+// function that adds the search results to the log.txt
 function appendOutput () {
     fs.appendFile("log.txt", output, function(err) {
         if (err) {
@@ -26,7 +34,10 @@ function appendOutput () {
       });
 }
 
+// function that determines which command to perform 
+    // search Spotify, OMDb, or Bands in Town
 function performCommand () {
+    // clears the log.txt file
     if (command === "clear") {
         searchNumber = 0;
         fs.writeFile("log.txt", "", function(err) {
@@ -38,11 +49,16 @@ function performCommand () {
             }
         })
     }
+
+    // searches the Spotify API for the user-specified track
+    // limits results to 5
     if (command === "spotify-this-song") {
         spotify.search({ type: 'track', query: userInput, limit: 5}, function(err, data) {
         if (err) {
            console.log("Error occurred: " + err);
         }
+
+        // if no tracks match the user's query, this default song is returned
         else if (data.tracks.items.length == 0) {
             spotify.search({type: 'track', query: "The Sign"}, function(err, data) {
                 if (err) {
@@ -72,6 +88,7 @@ function performCommand () {
     });
     }
 
+    // searches the Bands in Town API 
     if (command === "concert-this") {
         if (userInput == "") {
             userInput = "Billy Joel";
@@ -113,6 +130,7 @@ function performCommand () {
     }
 }
 
+// reads the information in the random.txt document
 if (command === "do-what-it-says") {
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
@@ -126,7 +144,6 @@ if (command === "do-what-it-says") {
         }
     })
 }
-
 
 getInput();
 performCommand();
