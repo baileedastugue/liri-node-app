@@ -17,23 +17,35 @@ function getInput() {
 }
 var output = "";
 
-// function appendOutput () {
-//     fs.appendFile("log.txt", output, function(err) {
+function appendOutput () {
+    fs.appendFile("log.txt", output, function(err) {
 
-//         // If an error was experienced we will log it.
-//         if (err) {
-//           console.log(err);
-//         }
+        // If an error was experienced we will log it.
+        if (err) {
+          console.log(err);
+        }
       
-//         // If no error is experienced, we'll log the phrase "Content Added" to our node console.
-//         else {
-//           console.log("Content Added!");
-//         }
+        // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+        else {
+          console.log("Content Added!");
+        }
       
-//       });
-// }
+      });
+}
+
+
 
 function performCommand () {
+    if (command === "clear") {
+        fs.writeFile("log.txt", "", function(err) {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                console.log("Search history cleared!")
+            }
+        })
+    }
     if (command === "spotify-this-song") {
     spotify.search({ type: 'track', query: userInput, limit: 5}, function(err, data) {
         if (err) {
@@ -45,12 +57,9 @@ function performCommand () {
                     console.log("Error occurred: " + err);
                 }
                 else {
-                    output = "Sorry! Your song couldn't be found, please enjoy some Ace of Base instead";
+                    output = "\nSorry! Your song couldn't be found, please enjoy some Ace of Base instead. \n Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n Track Name: " + data.tracks.items[0].name+ "\n Song Preview: " + data.tracks.items[0].preview_url + "\n Album Name: " + data.tracks.items[0].album.name;
                     console.log(output);
-                    console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n"); 
-                    console.log("Track Name: " + data.tracks.items[0].name+ "\n");
-                    console.log("Song Preview: " + data.tracks.items[0].preview_url + "\n");
-                    console.log(data.tracks.items[0].album.name);
+                    appendOutput();
                 }
             })
         }
