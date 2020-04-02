@@ -2,9 +2,10 @@ require("dotenv").config();
 var axios = require("axios");
 var keys = require("./keys.js");
 var moment = require("moment");
-
 var Spotify = require('node-spotify-api');
+var fs = require("fs");
 var spotify = new Spotify(keys.spotify);
+
 var command = process.argv[2];
 var userInput = "";
 var inputArray = []; 
@@ -14,9 +15,9 @@ function getInput() {
         userInput = inputArray.join(" ");
     }
 }
-getInput();
 
-if (command === "spotify-this-song") {
+function performCommand () {
+    if (command === "spotify-this-song") {
     spotify.search({ type: 'track', query: userInput, limit: 5}, function(err, data) {
         if (err) {
             console.log("apple");
@@ -42,9 +43,9 @@ if (command === "spotify-this-song") {
            }
        }
     });
-}
+    }
 
-if (command === "concert-this") {
+    if (command === "concert-this") {
     if (userInput == "") {
         userInput = "Billy Joel";
     }
@@ -59,9 +60,9 @@ if (command === "concert-this") {
         console.log("Concert date: " + moment(response.data[0].datetime).format("dddd, MMMM Do YYYY") + "\n"); 
         console.log("Concert time: " + moment(response.data[0].datetime).format("h:mm a") + "\n=============="); 
     })
-}
+    }
 
-if (command === "movie-this") {
+    if (command === "movie-this") {
     if (userInput ==  "") {
         userInput = "Mr. Nobody";
     }
@@ -79,10 +80,27 @@ if (command === "movie-this") {
             console.log("IMDb rating: " + response.data.imdbRating  + "\n");
             console.log("Rotten Tomatoes rating: " + response.data.Ratings[1].Value + "\n==============");
         })
+    }
+}
+
+getInput();
+performCommand();
+
+if (command === "do-what-it-says") {
+    fs.readFile("random.txt", "utf8", function (error, data) {
+        if (error) {
+            return console.log(error)
+        }
+        else {
+            inputArray = data.split(",");
+            command = inputArray[0];
+            userInput = inputArray[1];
+            performCommand();
+        }
+    })
 }
 
 // * `do-what-it-says`
-//     4. `node liri.js do-what-it-says`
 //     * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
 //         * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
 //         * Edit the text in random.txt to test out the feature for movie-this and concert-this.
