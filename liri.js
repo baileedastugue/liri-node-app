@@ -41,14 +41,17 @@ if (command === "spotify-this-song") {
     });
 }
 
+if (command === "concert-this") {
+    var queryURL = "https://rest.bandsintown.com/artists/" + userInput + "/events?app_id=codingbootcamp";
+    console.log(queryURL);
+}
+
 // * `concert-this`
     // `node liri.js concert-this <artist/band name here>`
     // * This will search the Bands in Town Artist Events API (`"https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"`) for an artist and render the following information about each event to the terminal:
     //   * Name of the venue
     //   * Venue location
     //   * Date of the Event (use moment to format this as "MM/DD/YYYY")
-    //  * **Important**: There is no need to sign up for a Bands in Town `api_id` key. Use the `codingbootcamp` as your `app_id`. For example, the URL used to search for "Celine Dion" would look like the following:
-    //    * `https://rest.bandsintown.com/artists/celine+dion/events?app_id=codingbootcamp`
 
 // * `movie-this`
     // 3. `node liri.js movie-this '<movie name here>'`
