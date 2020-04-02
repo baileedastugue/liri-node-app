@@ -45,11 +45,15 @@ if (command === "spotify-this-song") {
 }
 
 if (command === "concert-this") {
+    if (userInput == "") {
+        userInput = "Billy Joel";
+    }
     var queryURL = "https://rest.bandsintown.com/artists/" + 
                     userInput + "/events?app_id=codingbootcamp";
 
     axios.get(queryURL)
         .then(function(response){
+        console.log("Performer: " + response.data[0].lineup[0] + "\n");
         console.log("Venue name: " + response.data[0].venue.name + "\n");
         console.log("Venue location: " + response.data[0].venue.city + ", " + response.data[0].venue.country + "\n");
         console.log("Concert date: " + moment(response.data[0].datetime).format("dddd, MMMM Do YYYY") + "\n"); 
@@ -76,21 +80,6 @@ if (command === "movie-this") {
             console.log("Rotten Tomatoes rating: " + response.data.Ratings[1].Value + "\n==============");
         })
 }
-
-// * `movie-this`
-    // 3. `node liri.js movie-this '<movie name here>'`
-    // * This will output the following information to your terminal/bash window:
-    //     * IMDB Rating of the movie.
-    //     * Rotten Tomatoes Rating of the movie.
-    //     * Country where the movie was produced.
-    //     * Language of the movie.
-    //     * Plot of the movie.
-    //     * Actors in the movie.
-    //     ```
-    // * If the user doesn't type a movie in, the program will output data for the movie 'Mr. Nobody.'
-    //     * If you haven't watched "Mr. Nobody," then you should: <http://www.imdb.com/title/tt0485947/>
-    //     * It's on Netflix!
-    // * You'll use the `axios` package to retrieve data from the OMDB API. Like all of the in-class activities, the OMDB API requires an API key. You may use `trilogy`.
 
 // * `do-what-it-says`
 //     4. `node liri.js do-what-it-says`
