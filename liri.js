@@ -15,18 +15,38 @@ function getInput() {
         userInput = inputArray.join(" ");
     }
 }
+var output = "";
+
+// function appendOutput () {
+//     fs.appendFile("log.txt", output, function(err) {
+
+//         // If an error was experienced we will log it.
+//         if (err) {
+//           console.log(err);
+//         }
+      
+//         // If no error is experienced, we'll log the phrase "Content Added" to our node console.
+//         else {
+//           console.log("Content Added!");
+//         }
+      
+//       });
+// }
 
 function performCommand () {
     if (command === "spotify-this-song") {
     spotify.search({ type: 'track', query: userInput, limit: 5}, function(err, data) {
         if (err) {
-            console.log("apple");
+           console.log("Error occurred: " + err);
+        }
+        else if (data.tracks.items.length == 0) {
             spotify.search({type: 'track', query: "The Sign"}, function(err, data) {
                 if (err) {
                     console.log("Error occurred: " + err);
                 }
                 else {
-                    console.log("Sorry! Your song couldn't be found, please enjoy some Ace of Base instead")
+                    output = "Sorry! Your song couldn't be found, please enjoy some Ace of Base instead";
+                    console.log(output);
                     console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n"); 
                     console.log("Track Name: " + data.tracks.items[0].name+ "\n");
                     console.log("Song Preview: " + data.tracks.items[0].preview_url + "\n");
@@ -34,7 +54,7 @@ function performCommand () {
                 }
             })
         }
-       else {
+        else {
            for (var i = 0; i < data.tracks.items.length; i++) {
                 console.log("Artist Name: " + data.tracks.items[i].album.artists[0].name + "\n"); 
                 console.log("Track Name: " + data.tracks.items[i].name+ "\n");
@@ -83,9 +103,6 @@ function performCommand () {
     }
 }
 
-getInput();
-performCommand();
-
 if (command === "do-what-it-says") {
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
@@ -100,7 +117,6 @@ if (command === "do-what-it-says") {
     })
 }
 
-// * `do-what-it-says`
-//     * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
-//         * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
-//         * Edit the text in random.txt to test out the feature for movie-this and concert-this.
+
+getInput();
+performCommand();
