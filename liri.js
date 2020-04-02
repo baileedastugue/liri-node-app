@@ -22,9 +22,7 @@ function appendOutput () {
         if (err) {
           console.log(err);
         }
-        else {
-          console.log("Content Added!");
-        }
+       
       });
 }
 
@@ -51,7 +49,10 @@ function performCommand () {
                     console.log("Error occurred: " + err);
                 }
                 else {
-                    output = "\n" + searchNumber + ". \nSorry! Your song couldn't be found, please enjoy some Ace of Base instead. \n Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n Track Name: " + data.tracks.items[0].name+ "\n Song Preview: " + data.tracks.items[0].preview_url + "\n Album Name: " + data.tracks.items[0].album.name;
+                    output = "Sorry! Your song couldn't be found, please enjoy some Ace of Base instead. \n Artist Name: " + data.tracks.items[0].album.artists[0].name + 
+                            "\n Track Name: " + data.tracks.items[0].name + 
+                            "\n Song Preview: " + data.tracks.items[0].preview_url + 
+                            "\n Album Name: " + data.tracks.items[0].album.name + "\n==============\n";
                     console.log(output);
                     appendOutput();
                     
@@ -60,10 +61,10 @@ function performCommand () {
         }
         else {
            for (var i = 0; i < data.tracks.items.length; i++) {
-                output = ("\n" + searchNumber + ". \nArtist Name: " + data.tracks.items[i].album.artists[0].name +
+                output = "Artist Name: " + data.tracks.items[i].album.artists[0].name +
                                     "\nTrack Name: " + data.tracks.items[i].name+ 
                                     "\nSong Preview: " + data.tracks.items[i].preview_url +
-                                    "\nAlbum name: " + data.tracks.items[i].album.name + "\n=============="); 
+                                    "\nAlbum name: " + data.tracks.items[i].album.name + "\n==============\n"; 
                 console.log(output);
                 appendOutput();
            }
@@ -80,11 +81,11 @@ function performCommand () {
 
     axios.get(queryURL)
         .then(function(response){
-            output = "\nPerformer: " + response.data[0].lineup[0] + 
+            output = "Performer: " + response.data[0].lineup[0] + 
                         "\nVenue name: " + response.data[0].venue.name + 
                         "\nVenue location: " + response.data[0].venue.city + ", " + response.data[0].venue.country + 
                         "\nConcert date: " + moment(response.data[0].datetime).format("dddd, MMMM Do YYYY") + 
-                        "\nConcert time: " + moment(response.data[0].datetime).format("h:mm a") + "\n==============";
+                        "\nConcert time: " + moment(response.data[0].datetime).format("h:mm a") + "\n==============\n";
             console.log(output);
             appendOutput();
     })
@@ -94,19 +95,20 @@ function performCommand () {
     if (userInput ==  "") {
         userInput = "Mr. Nobody";
     }
-    console.log(userInput);
     var queryURL = "http://www.omdbapi.com/?t=" + 
                     userInput + "&y=&plot=short&apikey=trilogy";
     axios.get(queryURL)
         .then(function(response) {
-            console.log("Movie title: " + response.data.Title  + "\n");
-            console.log("Release date: " + response.data.Released  + "\n");
-            console.log("Plot of the movie: " + response.data.Plot  + "\n");
-            console.log("Actors in the movie: " + response.data.Actors  + "\n");
-            console.log("Country produced in: " + response.data.Country  + "\n");
-            console.log("Language of the movie: " + response.data.Language  + "\n");
-            console.log("IMDb rating: " + response.data.imdbRating  + "\n");
-            console.log("Rotten Tomatoes rating: " + response.data.Ratings[1].Value + "\n==============");
+            output = "Movie title: " + response.data.Title  + 
+                        "\nRelease date: " + response.data.Released  +
+                         "\nPlot of the movie: " + response.data.Plot  + 
+                         "\nActors in the movie: " + response.data.Actors  + 
+                         "\nCountry produced in: " + response.data.Country  + 
+                         "\nLanguage of the movie: " + response.data.Language  + 
+                         "\nIMDb rating: " + response.data.imdbRating  + 
+                         "\nRotten Tomatoes rating: " + response.data.Ratings[1].Value + "\n==============\n";
+            console.log(output);
+            appendOutput();
         })
     }
 }
