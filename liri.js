@@ -57,7 +57,16 @@ if (command === "concert-this") {
     })
 }
 
-//   * Date of the Event (use moment to format this as "MM/DD/YYYY")
+if (command === "movie-this") {
+    var queryURL = "http://www.omdbapi.com/?t=" + 
+                    userInput + "&y=&plot=short&apikey=trilogy";
+    axios.get(queryURL)
+        .then(function(response) {
+            console.log(response.data.Title);
+            console.log(response.data.Released);
+
+        })
+}
 
 // * `movie-this`
     // 3. `node liri.js movie-this '<movie name here>'`
