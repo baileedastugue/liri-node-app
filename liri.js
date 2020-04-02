@@ -3,10 +3,18 @@ var keys = require("./keys.js");
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 var command = process.argv[2];
-var userInput = process.argv[3];
+var userInput = "";
+var inputArray = []; 
+function getInput() {
+    for (var i = 3; i < process.argv.length; i++) {
+        inputArray.push(process.argv[i]);
+        userInput = inputArray.join(" ");
+    }
+}
+getInput();
 
 if (command === "spotify-this-song") {
-    spotify.search({ type: 'track', query: userInput, limit: 3}, function(err, data) {
+    spotify.search({ type: 'track', query: userInput, limit: 5}, function(err, data) {
         if (err) {
             console.log("apple");
             spotify.search({type: 'track', query: "The Sign"}, function(err, data) {
@@ -23,7 +31,6 @@ if (command === "spotify-this-song") {
             })
         }
        else {
-           console.log(data.tracks.items.length);
            for (var i = 0; i < data.tracks.items.length; i++) {
                 console.log("Artist Name: " + data.tracks.items[i].album.artists[0].name + "\n"); 
                 console.log("Track Name: " + data.tracks.items[i].name+ "\n");
@@ -42,11 +49,6 @@ if (command === "spotify-this-song") {
     //   * Date of the Event (use moment to format this as "MM/DD/YYYY")
     //  * **Important**: There is no need to sign up for a Bands in Town `api_id` key. Use the `codingbootcamp` as your `app_id`. For example, the URL used to search for "Celine Dion" would look like the following:
     //    * `https://rest.bandsintown.com/artists/celine+dion/events?app_id=codingbootcamp`
-
-// * `spotify-this-song`
-    // 2. `node liri.js spotify-this-song '<song name here>'`
-
-    // * If no song is provided then your program will default to "The Sign" by Ace of Base.
 
 // * `movie-this`
     // 3. `node liri.js movie-this '<movie name here>'`
