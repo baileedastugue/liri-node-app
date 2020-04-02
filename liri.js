@@ -15,28 +15,22 @@ function getInput() {
         userInput = inputArray.join(" ");
     }
 }
+var searchNumber =0;
 var output = "";
-
 function appendOutput () {
     fs.appendFile("log.txt", output, function(err) {
-
-        // If an error was experienced we will log it.
         if (err) {
           console.log(err);
         }
-      
-        // If no error is experienced, we'll log the phrase "Content Added" to our node console.
         else {
           console.log("Content Added!");
         }
-      
       });
 }
 
-
-
 function performCommand () {
     if (command === "clear") {
+        searchNumber = 0;
         fs.writeFile("log.txt", "", function(err) {
             if (err) {
                 console.log(err);
@@ -47,7 +41,7 @@ function performCommand () {
         })
     }
     if (command === "spotify-this-song") {
-    spotify.search({ type: 'track', query: userInput, limit: 5}, function(err, data) {
+        spotify.search({ type: 'track', query: userInput, limit: 5}, function(err, data) {
         if (err) {
            console.log("Error occurred: " + err);
         }
@@ -57,37 +51,42 @@ function performCommand () {
                     console.log("Error occurred: " + err);
                 }
                 else {
-                    output = "\nSorry! Your song couldn't be found, please enjoy some Ace of Base instead. \n Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n Track Name: " + data.tracks.items[0].name+ "\n Song Preview: " + data.tracks.items[0].preview_url + "\n Album Name: " + data.tracks.items[0].album.name;
+                    output = "\n" + searchNumber + ". \nSorry! Your song couldn't be found, please enjoy some Ace of Base instead. \n Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n Track Name: " + data.tracks.items[0].name+ "\n Song Preview: " + data.tracks.items[0].preview_url + "\n Album Name: " + data.tracks.items[0].album.name;
                     console.log(output);
                     appendOutput();
+                    
                 }
             })
         }
         else {
            for (var i = 0; i < data.tracks.items.length; i++) {
-                console.log("Artist Name: " + data.tracks.items[i].album.artists[0].name + "\n"); 
-                console.log("Track Name: " + data.tracks.items[i].name+ "\n");
-                console.log("Song Preview: " + data.tracks.items[i].preview_url + "\n");
-                console.log("Album name: " + data.tracks.items[i].album.name + "\n=============="); 
+                output = ("\n" + searchNumber + ". \nArtist Name: " + data.tracks.items[i].album.artists[0].name +
+                                    "\nTrack Name: " + data.tracks.items[i].name+ 
+                                    "\nSong Preview: " + data.tracks.items[i].preview_url +
+                                    "\nAlbum name: " + data.tracks.items[i].album.name + "\n=============="); 
+                console.log(output);
+                appendOutput();
            }
        }
     });
     }
 
     if (command === "concert-this") {
-    if (userInput == "") {
-        userInput = "Billy Joel";
-    }
+        if (userInput == "") {
+            userInput = "Billy Joel";
+        }
     var queryURL = "https://rest.bandsintown.com/artists/" + 
                     userInput + "/events?app_id=codingbootcamp";
 
     axios.get(queryURL)
         .then(function(response){
-        console.log("Performer: " + response.data[0].lineup[0] + "\n");
-        console.log("Venue name: " + response.data[0].venue.name + "\n");
-        console.log("Venue location: " + response.data[0].venue.city + ", " + response.data[0].venue.country + "\n");
-        console.log("Concert date: " + moment(response.data[0].datetime).format("dddd, MMMM Do YYYY") + "\n"); 
-        console.log("Concert time: " + moment(response.data[0].datetime).format("h:mm a") + "\n=============="); 
+            output = "\nPerformer: " + response.data[0].lineup[0] + 
+                        "\nVenue name: " + response.data[0].venue.name + 
+                        "\nVenue location: " + response.data[0].venue.city + ", " + response.data[0].venue.country + 
+                        "\nConcert date: " + moment(response.data[0].datetime).format("dddd, MMMM Do YYYY") + 
+                        "\nConcert time: " + moment(response.data[0].datetime).format("h:mm a") + "\n==============";
+            console.log(output);
+            appendOutput();
     })
     }
 
