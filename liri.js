@@ -65,10 +65,11 @@ function performCommand () {
                     console.log("Error occurred: " + err);
                 }
                 else {
+                    var info = data.tracks.items[0];
                     output = "Sorry! Your song couldn't be found, please enjoy some Ace of Base instead. \n Artist Name: " + data.tracks.items[0].album.artists[0].name + 
-                            "\n Track Name: " + data.tracks.items[0].name + 
-                            "\n Song Preview: " + data.tracks.items[0].preview_url + 
-                            "\n Album Name: " + data.tracks.items[0].album.name + "\n==============\n";
+                            "\n Track Name: " + info.name + 
+                            "\n Song Preview: " + info.preview_url + 
+                            "\n Album Name: " + info.album.name + "\n==============\n";
                     console.log(output);
                     appendOutput();
                     
@@ -77,10 +78,11 @@ function performCommand () {
         }
         else {
            for (var i = 0; i < data.tracks.items.length; i++) {
-                output = "Artist Name: " + data.tracks.items[i].album.artists[0].name +
-                                    "\nTrack Name: " + data.tracks.items[i].name+ 
-                                    "\nSong Preview: " + data.tracks.items[i].preview_url +
-                                    "\nAlbum name: " + data.tracks.items[i].album.name + "\n==============\n"; 
+                var info = data.tracks.items[i];
+                output = "Artist Name: " + info.album.artists[0].name +
+                                    "\nTrack Name: " + info.name+ 
+                                    "\nSong Preview: " + info.preview_url +
+                                    "\nAlbum name: " + info.album.name + "\n==============\n"; 
                 console.log(output);
                 appendOutput();
            }
