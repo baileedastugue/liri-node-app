@@ -43,6 +43,8 @@ The app must be run in the terminal, rooted in the liri.js file. Note that the u
 3. The separate file will be cleared of all information.
 
 #### [GitHub Link](https://github.com/baileedastugue/liri-node-app)
+#### [YouTube Demostration of Program](https://www.youtube.com/watch?v=oMQSGsOPXQE&feature=youtu.be)
+#### [YouTube Demostration of Prototype](https://www.youtube.com/watch?v=1cJlDloAIVI&feature=youtu.be)
 
 #### Technologies used:
 *To create the application:*
