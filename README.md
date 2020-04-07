@@ -3,7 +3,7 @@ Language Interpretation and Recognition Interface
 
 #### About the Application
 
-This app evaluates two user inputs and searches three different APIs to return the corresponding result. It essentially acts as a refined search engine for the user - the user can search for a song track, movie information, and/or concert information without leaving the app. The expedites information gathering and synthesizes the data all in one place.
+This app essentially acts as a refined search engine for the user - the user can search for a song track, movie information, and/or concert information without leaving the app or going to three separate sites. The expedites information gathering and synthesizes the data all in one place. It evaluates two user inputs (a command and a term) and searches three different APIs to return the corresponding result. 
 
 The app is organized based on what the user is searching for and is separated into three distinct categories: spotify-this-track, movie-this, and concert-this. Spotify-this-track returns song information on the term specified by the user, movie-this returns information on the user-specified specified movie, and concert-this returns concert data for the artist or group they user specified. All returned information is stored in a seprate file, essentially acting as a search history. Additional features include do-what-it-says, which reads commands from a separate text file, and clear, which clears the search history file.
 
