@@ -15,7 +15,12 @@ The app is organized based on what the user is searching for and is separated in
 *To create the application:*
 - Node.js
 - JavaScript
-- Node-spotify API, Axios, OMDB API, Bands in Town API, Moment, DotEnv
+- Axios
+- Node-spotify API
+- OMDB API
+- Bands in Town API
+- Moment
+- DotEnv
 - GitIgnore
 - Obscuring API keys
 
